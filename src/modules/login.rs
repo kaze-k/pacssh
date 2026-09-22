@@ -1,4 +1,6 @@
-use crate::{colors, constants::Layout, utils};
+use crate::colors;
+use crate::constants::Layout;
+use crate::utils::spaces;
 use unicode_width::UnicodeWidthStr;
 
 use super::Module;
@@ -28,7 +30,7 @@ impl Module for Login {
 
         format!(
             "{}{}{}",
-            utils::spaces(Layout::PADDING),
+            spaces(Layout::PADDING),
             colors::status(&label, self.is_ssh),
             colors::message(message, self.is_ssh)
         )
@@ -41,13 +43,7 @@ impl Module for Login {
             ("[fail]", "SSH LOGIN FAILED")
         };
 
-        format!(
-            "{}{:<gap$}{}",
-            utils::spaces(Layout::PADDING),
-            status,
-            message
-        )
-        .width()
+        format!("{}{:<gap$}{}", spaces(Layout::PADDING), status, message).width()
     }
 
     fn label(&self) -> Option<&str> {

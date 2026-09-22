@@ -1,4 +1,6 @@
-use crate::{colors, constants::Layout, utils};
+use crate::colors;
+use crate::constants::Layout;
+use crate::utils::{spaces, unknown};
 use unicode_width::UnicodeWidthStr;
 
 use super::Module;
@@ -13,7 +15,7 @@ impl Tty {
     pub fn new(name: &str) -> Self {
         Self {
             label: "TTY",
-            ok: !utils::isunknown(name),
+            ok: unknown(name).is_none(),
             name: name.to_string(),
         }
     }
@@ -25,7 +27,7 @@ impl Module for Tty {
 
         format!(
             "{}{}{}",
-            utils::spaces(Layout::PADDING),
+            spaces(Layout::PADDING),
             colors::label(&label, self.ok),
             colors::info(&self.name, self.ok)
         )
@@ -34,7 +36,7 @@ impl Module for Tty {
     fn width(&self, gap: usize) -> usize {
         format!(
             "{}{:<gap$}{}",
-            utils::spaces(Layout::PADDING),
+            spaces(Layout::PADDING),
             self.label,
             self.name
         )

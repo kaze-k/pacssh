@@ -1,4 +1,5 @@
-use crate::{constants::Color, types::Rgb};
+use crate::constants::Color;
+use crate::types::Rgb;
 use owo_colors::OwoColorize;
 
 pub fn status(text: &str, ok: bool) -> String {
@@ -67,7 +68,7 @@ pub fn gradient(text: &str, start: Rgb, end: Rgb) -> String {
         .iter()
         .enumerate()
         .map(|(i, ch)| {
-            let t = if len <=1 {
+            let t = if len <= 1 {
                 0.0
             } else {
                 i as f32 / (len - 1) as f32
@@ -81,5 +82,5 @@ pub fn gradient(text: &str, start: Rgb, end: Rgb) -> String {
                 .truecolor(r as u8, g as u8, b as u8)
                 .to_string()
         })
-    .collect()
+        .collect()
 }

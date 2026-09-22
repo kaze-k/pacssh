@@ -1,8 +1,6 @@
-use crate::{
-    colors,
-    constants::{self},
-    utils,
-};
+use crate::colors;
+use crate::constants;
+use crate::utils::spaces;
 use unicode_width::UnicodeWidthStr;
 
 pub struct Borderer;
@@ -55,7 +53,7 @@ impl Borderer {
                 constants::Color::END
             ),
             content,
-            utils::spaces(width),
+            spaces(width),
             colors::gradient(
                 constants::Border::VERTICAL,
                 constants::Color::END,
