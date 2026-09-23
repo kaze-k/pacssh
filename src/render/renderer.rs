@@ -1,3 +1,5 @@
+use std::io::{self, IoSlice, Write};
+
 use crate::constants::Layout;
 use crate::modules::Module;
 use crate::utils::spaces;
@@ -20,25 +22,26 @@ impl Renderer {
     pub fn render(&self, lines: &Vec<Box<dyn Module>>) {
         let gap = self.gap(lines);
         let width = self.width(lines, gap);
+        let indent = spaces(Layout::INDENT);
+        let mut contents = Vec::with_capacity(lines.len() + 2);
 
-        println!("\n");
-
-        println!("{}{}", spaces(Layout::INDENT), self.borderer.top(width));
+        contents.push(format!("{}{}", indent, self.borderer.top(width)));
 
         for (index, line) in lines.iter().enumerate() {
             let line_width = line.width(gap);
             let width = width.saturating_sub(line_width) + Layout::PADDING;
-            println!(
+            contents.push(format!(
                 "{}{}",
-                spaces(Layout::INDENT),
+                indent,
                 self.borderer
                     .line(&line.render(gap), width, index, lines.len())
-            );
+            ));
         }
 
-        println!("{}{}", spaces(Layout::INDENT), self.borderer.bottom(width));
+        contents.push(format!("{}{}", indent, self.borderer.bottom(width)));
 
-        println!("\n");
+        self.output(contents)
+            .expect("failed to write contents to stdout");
     }
 
     fn width(&self, lines: &Vec<Box<dyn Module>>, gap: usize) -> usize {
@@ -53,5 +56,27 @@ impl Renderer {
             .unwrap_or(0);
 
         max_gap + Layout::STATUS_GAP
+    }
+
+    fn output(&self, mut contents: Vec<String>) -> io::Result<()> {
+        let mut buffers: Vec<IoSlice> = vec![];
+
+        buffers.push(IoSlice::new("\n".as_bytes()));
+        buffers.push(IoSlice::new("\n".as_bytes()));
+
+        for content in &mut contents {
+            content.push('\n');
+            buffers.push(IoSlice::new(content.as_bytes()));
+        }
+
+        buffers.push(IoSlice::new("\n".as_bytes()));
+        buffers.push(IoSlice::new("\n".as_bytes()));
+
+        let mut stdout = io::stdout();
+
+        stdout.write_vectored(&buffers)?;
+        stdout.flush()?;
+
+        Ok(())
     }
 }
