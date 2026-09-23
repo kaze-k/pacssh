@@ -1,5 +1,5 @@
 use crate::constants::Color;
-use crate::types::Rgb;
+use crate::types::RGB;
 use owo_colors::OwoColorize;
 
 pub fn status(text: &str, ok: bool) -> String {
@@ -60,27 +60,37 @@ pub fn info(text: &str, ok: bool) -> String {
     }
 }
 
-pub fn gradient(text: &str, start: Rgb, end: Rgb) -> String {
-    let chars: Vec<char> = text.chars().collect();
+fn color_at(i: usize, len: usize, start: RGB, end: RGB) -> RGB {
+    let t = if len <= 1 {
+        0.0
+    } else {
+        i as f32 / (len - 1) as f32
+    };
+
+    let r = start.0 as f32 + (end.0 as f32 - start.0 as f32) * t;
+    let g = start.1 as f32 + (end.1 as f32 - start.1 as f32) * t;
+    let b = start.2 as f32 + (end.2 as f32 - start.2 as f32) * t;
+
+    (r as u8, g as u8, b as u8)
+}
+
+pub fn gradient_char(ch: char, i: usize, len: usize, start: RGB, end: RGB) -> String {
+    let (r, g, b) = color_at(i, len, start, end);
+
+    ch.to_string().truecolor(r, g, b).to_string()
+}
+
+pub fn gradient_string(string: &str, start: RGB, end: RGB) -> String {
+    let chars: Vec<char> = string.chars().collect();
     let len = chars.len();
 
     chars
         .iter()
         .enumerate()
         .map(|(i, ch)| {
-            let t = if len <= 1 {
-                0.0
-            } else {
-                i as f32 / (len - 1) as f32
-            };
+            let (r, g, b) = color_at(i, len, start, end);
 
-            let r = start.0 as f32 + (end.0 as f32 - start.0 as f32) * t;
-            let g = start.1 as f32 + (end.1 as f32 - start.1 as f32) * t;
-            let b = start.2 as f32 + (end.2 as f32 - start.2 as f32) * t;
-
-            ch.to_string()
-                .truecolor(r as u8, g as u8, b as u8)
-                .to_string()
+            ch.to_string().truecolor(r, g, b).to_string()
         })
         .collect()
 }

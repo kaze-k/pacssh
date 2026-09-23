@@ -4,7 +4,7 @@ pub fn spaces(width: usize) -> String {
 
 pub fn unknown(value: &str) -> Option<&str> {
     if value == "unknown" {
-        Some("unknown")
+        Some(value)
     } else {
         None
     }

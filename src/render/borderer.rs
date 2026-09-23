@@ -1,5 +1,5 @@
 use crate::colors;
-use crate::constants;
+use crate::constants::{Border, Color, Icon, Layout};
 use crate::utils::spaces;
 use unicode_width::UnicodeWidthStr;
 
@@ -11,54 +11,46 @@ impl Borderer {
     }
 
     pub fn top(&self, width: usize) -> String {
-        let width = width + constants::Layout::PADDING
-            - constants::Icon::PACMAN.width()
-            - constants::Border::HORIZONTAL.repeat(2).width()
+        let width = width + Layout::PADDING
+            - Icon::PACMAN.to_string().width()
+            - Border::HORIZONTAL.to_string().repeat(2).width()
             - 2;
         let border = format!(
             "{}{} {} {}{}",
-            constants::Border::TOP_LEFT,
-            constants::Border::HORIZONTAL.repeat(2),
-            constants::Icon::PACMAN,
-            constants::Border::HORIZONTAL.repeat(width),
-            constants::Border::TOP_RIGHT,
+            Border::TOP_LEFT,
+            Border::HORIZONTAL.to_string().repeat(2),
+            Icon::PACMAN,
+            Border::HORIZONTAL.to_string().repeat(width),
+            Border::TOP_RIGHT,
         );
 
-        colors::gradient(&border, constants::Color::START, constants::Color::END)
+        colors::gradient_string(&border, Color::BLUE, Color::CYAN)
     }
 
     pub fn bottom(&self, width: usize) -> String {
-        let width = width + constants::Layout::PADDING
-            - constants::Icon::GHOST.width()
-            - constants::Border::HORIZONTAL.repeat(2).width()
+        let width = width + Layout::PADDING
+            - Icon::GHOST.to_string().width()
+            - Border::HORIZONTAL.to_string().repeat(2).width()
             - 2;
         let border = format!(
             "{}{} {} {}{}",
-            constants::Border::BOTTOM_LEFT,
-            constants::Border::HORIZONTAL.repeat(width),
-            constants::Icon::GHOST,
-            constants::Border::HORIZONTAL.repeat(2),
-            constants::Border::BOTTOM_RIGHT,
+            Border::BOTTOM_LEFT,
+            Border::HORIZONTAL.to_string().repeat(width),
+            Icon::GHOST,
+            Border::HORIZONTAL.to_string().repeat(2),
+            Border::BOTTOM_RIGHT,
         );
 
-        colors::gradient(&border, constants::Color::END, constants::Color::START)
+        colors::gradient_string(&border, Color::ORANGE, Color::PINK)
     }
 
-    pub fn line(&self, content: &str, width: usize) -> String {
+    pub fn line(&self, content: &str, width: usize, index: usize, height: usize) -> String {
         format!(
             "{}{}{}{}",
-            colors::gradient(
-                constants::Border::VERTICAL,
-                constants::Color::START,
-                constants::Color::END
-            ),
+            colors::gradient_char(Border::VERTICAL, index, height, Color::BLUE, Color::ORANGE),
             content,
             spaces(width),
-            colors::gradient(
-                constants::Border::VERTICAL,
-                constants::Color::END,
-                constants::Color::START
-            )
+            colors::gradient_char(Border::VERTICAL, index, height, Color::CYAN, Color::PINK)
         )
     }
 }

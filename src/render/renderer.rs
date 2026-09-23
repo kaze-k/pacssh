@@ -24,13 +24,14 @@ impl Renderer {
 
         println!("{}{}", spaces(Layout::INDENT), self.borderer.top(width));
 
-        for line in lines {
+        for (index, line) in lines.iter().enumerate() {
             let line_width = line.width(gap);
             let width = width.saturating_sub(line_width) + Layout::PADDING;
             println!(
                 "{}{}",
                 spaces(Layout::INDENT),
-                self.borderer.line(&line.render(gap), width)
+                self.borderer
+                    .line(&line.render(gap), width, index, lines.len())
             );
         }
 

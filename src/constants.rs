@@ -1,4 +1,4 @@
-use crate::types::Rgb;
+use crate::types::RGB;
 
 pub struct Layout;
 impl Layout {
@@ -10,26 +10,25 @@ impl Layout {
 
 pub struct Icon;
 impl Icon {
-    pub const PACMAN: &str = "󰮯";
-    pub const GHOST: &str = "󰊠";
+    pub const PACMAN: char = '󰮯';
+    pub const GHOST: char = '󰊠';
 }
 
 pub struct Color;
 impl Color {
-    pub const START: Rgb = (96, 165, 250);
-    pub const END: Rgb = (217, 70, 239);
-
-    pub const ORANGE: Rgb = (255, 165, 0);
-    pub const PINK: Rgb = (255, 105, 180);
+    pub const BLUE: RGB = (96, 165, 250);
+    pub const CYAN: RGB = (45, 212, 191);
+    pub const ORANGE: RGB = (255, 165, 0);
+    pub const PINK: RGB = (255, 105, 180);
 }
 
 pub struct Border;
 impl Border {
-    pub const TOP_LEFT: &str = "╭";
-    pub const TOP_RIGHT: &str = "╮";
-    pub const BOTTOM_RIGHT: &str = "╯";
-    pub const BOTTOM_LEFT: &str = "╰";
+    pub const TOP_LEFT: char = '╭';
+    pub const TOP_RIGHT: char = '╮';
+    pub const BOTTOM_RIGHT: char = '╯';
+    pub const BOTTOM_LEFT: char = '╰';
 
-    pub const HORIZONTAL: &str = "─";
-    pub const VERTICAL: &str = "│";
+    pub const HORIZONTAL: char = '─';
+    pub const VERTICAL: char = '│';
 }
