@@ -1,4 +1,5 @@
 use super::Module;
+
 use unicode_width::UnicodeWidthStr;
 
 #[derive(Clone, Copy)]

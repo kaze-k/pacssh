@@ -1,5 +1,6 @@
 use crate::constants::Color;
 use crate::types::RGB;
+
 use owo_colors::OwoColorize;
 
 pub fn status(text: &str, ok: bool) -> String {

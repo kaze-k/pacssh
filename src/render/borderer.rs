@@ -1,6 +1,7 @@
 use crate::colors;
 use crate::constants::{Border, Color, Icon, Layout};
 use crate::utils::spaces;
+
 use unicode_width::UnicodeWidthStr;
 
 pub struct Borderer;
@@ -24,7 +25,7 @@ impl Borderer {
             Border::TOP_RIGHT,
         );
 
-        colors::gradient_string(&border, Color::BLUE, Color::CYAN)
+        colors::gradient_string(&border, Color::BLUE, Color::PINK)
     }
 
     pub fn bottom(&self, width: usize) -> String {
@@ -41,7 +42,7 @@ impl Borderer {
             Border::BOTTOM_RIGHT,
         );
 
-        colors::gradient_string(&border, Color::ORANGE, Color::PINK)
+        colors::gradient_string(&border, Color::ORANGE, Color::CYAN)
     }
 
     pub fn line(&self, content: &str, width: usize, index: usize, height: usize) -> String {
@@ -50,7 +51,7 @@ impl Borderer {
             colors::gradient_char(Border::VERTICAL, index, height, Color::BLUE, Color::ORANGE),
             content,
             spaces(width),
-            colors::gradient_char(Border::VERTICAL, index, height, Color::CYAN, Color::PINK)
+            colors::gradient_char(Border::VERTICAL, index, height, Color::PINK, Color::CYAN)
         )
     }
 }

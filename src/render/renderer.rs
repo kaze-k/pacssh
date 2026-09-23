@@ -3,6 +3,7 @@ use crate::modules::Module;
 use crate::utils::spaces;
 
 use super::borderer::Borderer;
+
 use unicode_width::UnicodeWidthStr;
 
 pub struct Renderer {

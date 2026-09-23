@@ -1,9 +1,10 @@
 use crate::colors;
 use crate::constants::Layout;
 use crate::utils::spaces;
-use unicode_width::UnicodeWidthStr;
 
 use super::Module;
+
+use unicode_width::UnicodeWidthStr;
 
 pub struct Login {
     label: &'static str,

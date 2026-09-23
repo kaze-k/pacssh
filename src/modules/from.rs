@@ -1,9 +1,10 @@
 use crate::colors;
 use crate::constants::Layout;
 use crate::utils::{spaces, unknown};
-use unicode_width::UnicodeWidthStr;
 
 use super::Module;
+
+use unicode_width::UnicodeWidthStr;
 
 pub struct From {
     label: &'static str,

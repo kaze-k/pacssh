@@ -1,6 +1,5 @@
+use nix::unistd::{self, User};
 use std::io::stdin;
-use nix::unistd;
-use nix::unistd::{User};
 
 pub struct Info;
 

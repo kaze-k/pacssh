@@ -6,22 +6,24 @@ mod system;
 mod types;
 mod utils;
 
-use modules::Module;
+use modules::{Blank, From, Login, Module, Session, To, Tty};
+use render::Renderer;
+use system::{Info, Ssh};
 
 fn main() {
-    let info = system::info::Info::new();
-    let ssh = system::ssh::Ssh::new();
+    let info = Info::new();
+    let ssh = Ssh::new();
 
     let username = info.username();
     let hostname = info.hostname();
     let ttyname = info.ttyname();
 
-    let blank = modules::Blank::new();
-    let login = modules::Login::new(ssh.is_ssh);
-    let session = modules::Session::new(&username, &hostname);
-    let tty = modules::Tty::new(&ttyname);
-    let from = modules::From::new(&ssh.client_ip, &ssh.client_port);
-    let to = modules::To::new(&ssh.server_ip, &ssh.server_port);
+    let blank = Blank::new();
+    let login = Login::new(ssh.is_ssh);
+    let session = Session::new(&username, &hostname);
+    let tty = Tty::new(&ttyname);
+    let from = From::new(&ssh.client_ip, &ssh.client_port);
+    let to = To::new(&ssh.server_ip, &ssh.server_port);
 
     let mut lines: Vec<Box<dyn Module>> = vec![
         Box::new(blank),
@@ -38,7 +40,7 @@ fn main() {
 
     lines.push(Box::new(blank));
 
-    let renderer = render::Renderer::new();
+    let renderer = Renderer::new();
 
     renderer.render(&lines);
 }
