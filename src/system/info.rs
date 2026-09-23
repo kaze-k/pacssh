@@ -1,5 +1,5 @@
 use nix::unistd::{self, User};
-use std::io::stdin;
+use std::io::{stderr, stdin, stdout};
 
 pub struct Info;
 
@@ -24,6 +24,8 @@ impl Info {
 
     pub fn ttyname(&self) -> String {
         unistd::ttyname(stdin())
+            .or_else(|_| unistd::ttyname(stdout()))
+            .or_else(|_| unistd::ttyname(stderr()))
             .ok()
             .map(|path| path.to_string_lossy().into_owned())
             .unwrap_or_else(|| "unknown".to_string())
